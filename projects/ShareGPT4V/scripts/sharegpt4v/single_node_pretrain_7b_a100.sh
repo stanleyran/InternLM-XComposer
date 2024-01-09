@@ -20,17 +20,17 @@ export TUNE_VIT_FROM=12
 export BASE_LR=2e-5
 export GRADIENT_ACCU_STEPS=4
 
-SRUN_ARGS=${SRUN_ARGS:-""}
-PYTHONPATH="$(dirname $0)/..":$PYTHONPATH \
-srun -p Your Partion \
-    --nodes=$NNODES \
-    --ntasks-per-node=1 \
-    --gres=gpu:$GPUS_PER_NODE \
-    --cpus-per-task=$CPUS_PER_TASK \
-    --kill-on-bad-exit=1 \
-    --quotatype=${QUOTA} \
-    ${SRUN_ARGS} \
-    bash -c 'torchrun --nnodes $NNODES --nproc_per_node $GPUS_PER_NODE --node_rank $SLURM_NODEID --master_addr $(scontrol show hostname $SLURM_NODELIST | head -n1) --master_port ${MASTER_PORT} share4v/train/train_mem.py \
+#SRUN_ARGS=${SRUN_ARGS:-""}
+#PYTHONPATH="$(dirname $0)/..":$PYTHONPATH \
+#srun -p Your Partion \
+#    --nodes=$NNODES \
+#    --ntasks-per-node=1 \
+#    --gres=gpu:$GPUS_PER_NODE \
+#    --cpus-per-task=$CPUS_PER_TASK \
+#    --kill-on-bad-exit=1 \
+#    --quotatype=${QUOTA} \
+#    ${SRUN_ARGS} \
+    bash -c 'torchrun --nnodes $NNODES --nproc_per_node $GPUS_PER_NODE  share4v/train/train_mem.py \
     --deepspeed ./scripts/zero3.json \
     --model_name_or_path lmsys/vicuna-7b-v1.5 \
     --version plain \
